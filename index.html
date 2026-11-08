@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 4: Asynchronous JavaScript & RESTful APIs | Weather Dashboard</title>
+  <meta name="description" content="Real-time Weather Dashboard querying public REST APIs via async/await, featuring robust error handling, nested JSON parsing, and dynamic UI updates.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="weather-container">
+    
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+      <h1>🌤️ Weather Matrix</h1>
+      <p>Asynchronous REST API Integration with Live Meteorological Metrics</p>
+    </header>
+
+    <!-- Search & Control Panel Card -->
+    <div class="search-controls-card">
+      <form id="search-form" class="search-form" aria-label="Search weather by city">
+        <div class="search-input-wrap">
+          <input 
+            type="search" 
+            id="city-input" 
+            class="search-input" 
+            placeholder="Search any global city (e.g., Tokyo, London, San Francisco)..." 
+            required 
+            autocomplete="off"
+            aria-label="City name"
+          >
+        </div>
+        <button type="submit" class="btn-search" aria-label="Search city">
+          <span>Search</span>
+          <span aria-hidden="true">🔍</span>
+        </button>
+        <button type="button" id="geo-btn" class="btn-geo" aria-label="Use current GPS location" title="Use current location">
+          <span aria-hidden="true">📍</span>
+          <span>Locate</span>
+        </button>
+      </form>
+
+      <div class="controls-subrow">
+        <!-- Recent searches chips -->
+        <div class="recent-searches">
+          <span style="color: var(--text-dim); font-size: 0.8rem;">Recent:</span>
+          <div id="recent-searches" style="display: flex; gap: 0.4rem; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Temperature Unit Toggle -->
+        <div class="unit-toggle" role="group" aria-label="Temperature unit selection">
+          <button type="button" class="unit-btn active" data-unit="C">°C</button>
+          <button type="button" class="unit-btn" data-unit="F">°F</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State Card -->
+    <div id="loading-card" class="status-card" role="status" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p><strong>Querying live RESTful weather endpoints...</strong></p>
+      <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.25rem;">Parsing async JSON payload</p>
+    </div>
+
+    <!-- Error State Card -->
+    <div id="error-card" class="status-card error-card" role="alert" aria-live="assertive">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;" aria-hidden="true">⚠️</div>
+      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Network or Query Error</h2>
+      <p id="error-message">Unable to fetch weather data for the specified location.</p>
+      <button type="button" id="retry-btn" class="btn-retry">Retry Query</button>
+    </div>
+
+    <!-- Dynamic Weather Display Area -->
+    <main id="weather-display" class="weather-display-area" role="main">
+      
+      <!-- Current Conditions Card -->
+      <section class="current-weather-card" aria-label="Current Weather Conditions">
+        <div>
+          <div class="city-title-row">
+            <h2 id="city-name" class="city-name">London</h2>
+            <span id="country-code" class="country-code">GB</span>
+          </div>
+          <div id="timestamp" class="timestamp">Last updated: Just now</div>
+
+          <div class="temp-huge-wrap">
+            <span id="condition-icon" class="condition-big-icon" aria-hidden="true">⛅</span>
+            <div>
+              <span id="temp-val" class="temp-huge">18</span>
+              <span id="temp-unit-symbol" class="temp-unit">°C</span>
+              <div id="condition-text" class="condition-text">Partly cloudy</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid (Humidity, Wind Speed, Feels Like, Surface Pressure) -->
+        <div class="metrics-grid" aria-label="Meteorological metrics">
+          <div class="metric-pill">
+            <div class="metric-icon" aria-hidden="true">💧</div>
+            <div>
+              <div class="metric-label">Humidity</div>
+              <div id="humidity-val" class="metric-val">68%</div>
+            </div>
+          </div>
+
+          <div class="metric-pill">
+            <div class="metric-icon" aria-hidden="true">💨</div>
+            <div>
+              <div class="metric-label">Wind Speed</div>
+              <div id="wind-val" class="metric-val">14 km/h</div>
+            </div>
+          </div>
+
+          <div class="metric-pill">
+            <div class="metric-icon" aria-hidden="true">🌡️</div>
+            <div>
+              <div class="metric-label">Feels Like</div>
+              <div id="feels-like-val" class="metric-val">17°C</div>
+            </div>
+          </div>
+
+          <div class="metric-pill">
+            <div class="metric-icon" aria-hidden="true">🧭</div>
+            <div>
+              <div class="metric-label">Pressure</div>
+              <div id="pressure-val" class="metric-val">1015 hPa</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5-Day Forecast Section -->
+      <section class="forecast-section" aria-label="5-Day Weather Forecast">
+        <h3 class="forecast-title">
+          <span>📅 5-Day Extended Forecast</span>
+        </h3>
+        <div id="forecast-grid" class="forecast-grid">
+          <!-- Populated dynamically via weather.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer Back Link -->
+    <div class="back-hub-wrap">
+      <a href="../task-1-2-portfolio/index.html">← Back to Portfolio Showcase</a>
+    </div>
+
+  </div>
+
+  <script src="js/weather.js"></script>
+</body>
+</html>
